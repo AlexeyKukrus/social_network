@@ -1,15 +1,17 @@
-name: build
+name: CI Pipeline
 
 on:
   push:
-    branches-ignore: 
+    branches-ignore:
+      - develop
       - main
   pull_request:
     branches:
+      - develop
       - main
 
 jobs:
-  
+  # Job для тестирования и линтинга на всех ветках, кроме develop и main
   test-and-lint:
     runs-on: windows-latest
 
@@ -37,9 +39,10 @@ jobs:
         working-directory: ./frontend
         run: npm run lint
 
+  # Job для полного цикла (develop и main)
   full-cycle:
-    if: github.ref == 'refs/heads/main' 
     runs-on: windows-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code

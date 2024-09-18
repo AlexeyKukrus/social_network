@@ -1,74 +1,43 @@
-name: CI Pipeline
+name: build
 
 on: push
-on:
-  push:
-    branches-ignore:
-      - develop
-      - main
-  pull_request:
-    branches:
-      - develop
-      - main
 
 jobs:
-  # Job для тестирования и линтинга на всех ветках, кроме develop и main
-  test-and-lint:
+  test: 
     runs-on: windows-latest
     steps: 
-      - name: Checkout code
+      - name: Get code in repository
         uses: actions/checkout@v3
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-cache
-          restore-keys: |
-            ${{ runner.os }}-npm-cache
 
       - name: Install dependencies
         working-directory: ./frontend
         run: npm ci
-
-      - name: Run tests
+      - name: Tasting application
         working-directory: ./frontend
         run: npm run test
 
-      - name: Lint code
-        working-directory: ./frontend
-        run: npm run lint
-
-  # Job для полного цикла (develop и main)
-  full-cycle:
+  lint:
     runs-on: windows-latest
     steps: 
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
+      - name: Get code in repository
         uses: actions/checkout@v3
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-cache
-          restore-keys: |
-            ${{ runner.os }}-npm-cache
 
       - name: Install dependencies
         working-directory: ./frontend
         run: npm ci
-
-      - name: Run tests
-        working-directory: ./frontend
-        run: npm run test
-
-      - name: Lint code
+      - name: Lint application
         working-directory: ./frontend
         run: npm run lint
 
+  build:
+    runs-on: windows-latest
+    steps: 
+      - name: Get code in repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
       - name: Build application
         working-directory: ./frontend
         run: npm run build

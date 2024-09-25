@@ -1,8 +1,12 @@
-name: build
+name: check
 
 on:
   push:
-    branches: 
+    branches-ignore: 
+      - 'develop'
+      - 'main'
+  pull_request:
+    branches:
       - 'develop'
       - 'main'
 
@@ -33,17 +37,3 @@ jobs:
       - name: Lint application
         working-directory: ./frontend
         run: npm run lint
-
-  build:
-    runs-on: windows-latest
-    needs: lint
-    steps: 
-      - name: Get code in repository
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        working-directory: ./frontend
-        run: npm ci
-      - name: Build application
-        working-directory: ./frontend
-        run: npm run build

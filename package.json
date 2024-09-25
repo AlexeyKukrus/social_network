@@ -1,0 +1,27 @@
+{
+  "name": "social_network",
+  "version": "1.0.0",
+  "author": "Alexey Kukrus",
+  "license": "ISC",
+  "description": "",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start:frontend": "npm run start --workspace=frontend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "test:frontend": "npm run test --workspace=frontend",
+    "lint:frontend": "npm run lint --workspace=frontend",
+    "lint": "npm run lint --workspace=frontend",
+    "test": "npm run test --workspace=frontend",
+    "build": "npm run build --workspace=frontend"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "prettier": "^2.8.0"
+  },
+  "dependencies": {
+    "concurrently": "^7.3.0"
+  }
+}
